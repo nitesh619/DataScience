@@ -3,7 +3,6 @@ import urllib.request
 import cv2
 import numpy as np
 
-
 while True:
     ip_image = urllib.request.urlopen('http://192.168.0.100:8080/shot.jpg')
     ip_np_arr = np.array(bytearray(ip_image.read()), dtype=np.uint8)

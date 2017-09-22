@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
 
 # cap = cv2.VideoCapture(0)
 # img1 = cv2.imread('wal\\nEX1YC1.jpg')

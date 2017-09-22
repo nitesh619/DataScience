@@ -1,6 +1,5 @@
-from PIL import Image
 import numpy as np
-import wave as wv
+from PIL import Image
 
 img = Image.open('thor.jpg')
 img = img.convert('L')

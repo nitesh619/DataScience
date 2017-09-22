@@ -1,4 +1,3 @@
-import numpy as np
 import cv2
 
 batman = cv2.imread('batman.jpg')

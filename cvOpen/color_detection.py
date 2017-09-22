@@ -3,18 +3,17 @@ import urllib.request
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
 kernel = np.ones((5, 5), np.uint8)
 
 
 def showContours(contours, res, text):
     for contour in contours:
         area = cv2.contourArea(contour)
-        if area > 1000:
+        if area > 500:
             x, y, w, h = cv2.boundingRect(contour)
-            res = cv2.rectangle(res, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            res = cv2.rectangle(res, (x, y), (x + w, y + h), (0, 0, 0), 2)
             cv2.putText(res, text, (x + 10, y + 44), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255))
-
 
 while True:
     # _, frame = cap.read()
@@ -29,31 +28,44 @@ while True:
     blue_lower = np.array([110, 50, 50])
     blue_upper = np.array([120, 255, 255])
 
-    yellow_lower = np.array([22, 60, 200])
-    yellow_upper = np.array([60, 255, 255])
+    yellow_lower = np.array([20, 150, 150])
+    yellow_upper = np.array([40, 255, 255])
+
+    # white_lower = np.array([0, 0, 0])
+    # white_upper = np.array([0, 0, 255])
+
+    o_lower = np.array([10, 120, 130])
+    o_upper = np.array([20, 255, 255])
 
     red_lower = np.array([136, 87, 111])
     red_upper = np.array([180, 255, 255])
 
-    white_lower = np.array([136, 87, 111])
-    white_upper = np.array([180, 255, 255])
+    green_lower = np.array([45, 50, 50])
+    green_upper = np.array([75, 255, 255])
 
-    mask_yellow = cv2.inRange(hsv, yellow_lower, yellow_upper)
+    mask_yellow = cv2.dilate(cv2.inRange(hsv, yellow_lower, yellow_upper), kernel)
+    mask_orange = cv2.dilate(cv2.inRange(hsv, o_lower, o_upper), kernel)
     mask_red = cv2.inRange(hsv, red_lower, red_upper)
     mask_blue = cv2.inRange(hsv, blue_lower, blue_upper)
+    mask_green = cv2.inRange(hsv, green_lower, green_upper)
     mask_1 = cv2.bitwise_or(mask_yellow, mask_blue)
 
     mask = cv2.bitwise_or(mask_1, mask_red)
     dilate = cv2.dilate(mask, kernel)
     res = cv2.bitwise_and(frame, frame, mask=dilate)
 
-    _, red_contours, hierarchy1 = cv2.findContours(mask_red, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-    _, blue_contours, hierarchy2 = cv2.findContours(mask_blue, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-    _, yellow_contours, hierarchy3 = cv2.findContours(mask_yellow, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    _, red_contours, _ = cv2.findContours(mask_red, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    _, blue_contours, _ = cv2.findContours(mask_blue, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    _, yellow_contours, _ = cv2.findContours(mask_yellow, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    _, green_contours, _ = cv2.findContours(mask_green, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    _, orange_contours, _ = cv2.findContours(mask_orange, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
 
     showContours(red_contours, frame, 'RED')
     showContours(blue_contours, frame, 'BLUE')
-    showContours(yellow_contours, frame, 'YELL')
+    showContours(yellow_contours, frame, 'yell')
+    showContours(green_contours, frame, 'gree')
+    showContours(orange_contours, frame, 'Org')
 
     cv2.imshow('original', frame)
 
@@ -61,7 +73,7 @@ while True:
     if k == 27:
         break
 
-cap.release()
+# cap.release()
 cv2.destroyAllWindows()
 
 # smoth = cv2.filter2D(res, -1, kernel)
