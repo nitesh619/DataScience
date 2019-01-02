@@ -19,7 +19,9 @@ print(df)
 df.drop('E', axis=0, inplace=True)
 print(df)
 
-print(df.shape)
-print(df.loc['C'])
-print(df.iloc[1])
-print(df.loc['B'])
+sales = {'account': ['Jones LLC', 'Alpha Co', 'Blue Inc'],
+         'Jan': [150, 200, 50],
+         'Feb': [200, 210, 90],
+         'Mar': [140, 215, 95]}
+df = pd.DataFrame.from_dict(sales)
+print df

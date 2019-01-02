@@ -3,7 +3,7 @@ import urllib.request
 import cv2
 import numpy as np
 
-# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 kernel = np.ones((5, 5), np.uint8)
 
 
@@ -16,12 +16,12 @@ def showContours(contours, res, text):
             cv2.putText(res, text, (x + 10, y + 44), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255))
 
 while True:
-    # _, frame = cap.read()
-    ip_image = urllib.request.urlopen('http://192.168.0.100:8080/shot.jpg')
-    ip_np_arr = np.array(bytearray(ip_image.read()), dtype=np.uint8)
+    _, frame = cap.read()
+    # ip_image = urllib.request.urlopen('http://192.168.0.100:8080/shot.jpg')
+    # ip_np_arr = np.array(bytearray(ip_image.read()), dtype=np.uint8)
 
-    ip = cv2.imdecode(ip_np_arr, -1)
-    frame = cv2.resize(ip, None, fx=.5, fy=.5, interpolation=cv2.INTER_CUBIC)
+    # ip = cv2.imdecode(ip_np_arr, -1)
+    # frame = cv2.resize(ip, None, fx=.5, fy=.5, interpolation=cv2.INTER_CUBIC)
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     # ssc = cv2.pyrMeanShiftFiltering(hsv,31,91)
 

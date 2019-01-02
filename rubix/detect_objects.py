@@ -1,8 +1,6 @@
-import rubix.ColorObject as cod
-import cv2
 import cv2
 
-import rubix.ColorObject as cod
+import ColorObject as cod
 
 image = cv2.imread('colors.jpg')
 blueDetector = cod.ColorObject('Blue', [110, 50, 50], [120, 255, 255])
